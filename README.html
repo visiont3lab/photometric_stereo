@@ -1,0 +1,350 @@
+
+    <html>
+      <head>
+        <title>README.md</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+      </head>
+      <body>
+        <div id='content'>
+    <h1 id="python-photometric-stereo">Python Photometric Stereo</h1>
+<p>Woodham's algorithm for photometric stereo implemented in Python with OpenCV and numpy.  </p>
+<h2 id="contents">Contents</h2>
+<ul>
+<li><a href="#photometric-stereo-description">Photometric stereo description</a></li>
+<li><a href="#implementation">Implementation</a><ul>
+<li><a href="#requirements">Requirements</a></li>
+<li><a href="#functions">Functions</a></li>
+<li><a href="#results">Results</a></li></ul></li>
+<li><a href="#todo">TODO</a></li>
+<li><a href="#license">License</a></li>
+</ul>
+<h2 id="photometric-stereo-description">Photometric stereo description</h2>
+<p>Photometric stereo is a method of estimating surface geometry by using a ﬁxed-position camera and multiple light sources.  <br />
+It was proposed by Robert J Woodham in 1980 as an alternative to other stereo techniques, <br />
+that needed two images of the same object, viewed from different directions, to determine its surface orientation.  <br />
+These techniques require some knowledge of the correspondence between picture elements, that is not always easy to achieve.  <br />
+The idea of photometric stereo is to vary the direction of incident illumination between successive images, while the viewing direction is constant;<br />
+in this way, the correspondence of image points is known beforehand, as the position of the object is not changed, and surface orientation is determined by using the radiance values recorded with the diﬀerent images.</p>
+<div>
+
+<table>
+    <tr>
+        <td>Ideal acquisition setup </td>
+        <td>Acquired images</td>
+    </tr>
+    <tr>
+        <td><img src="static/scripts/images/doc/0.png" alt="drawing" height="200"/></td>
+        <td><img src="static/scripts/images/doc/1.png" alt="drawing" width="300"/></td>
+    </tr>
+</table>
+
+
+</div>
+<p>Photometric stereo has several applications: it is used to detect small surface defects, imperceptible to the human eye; it has also medical applications, i.e. to detect skin lesions and help in the diagnosis of melanoma.<br />
+More recently, it has been used also to perform a non-invasive 3D scan of surfaces, and as a cheap method to get a real-time facial motion capture, widely used in computer graphics applications.</p>
+<h2 id="implementation">Implementation</h2>
+<p>This repository contains an implementation of Woodham's algorithm as a standalone module, an example script showing its usage and several example image sets.  <br />
+The algorithm requires the knowledge of light directions. You can set them by using tilt and slant angles (in degrees) or loading a matrix containing the directions.<br />
+Reference frames are shown in the following images.</p>
+<div>
+
+<table>
+    <tr>
+        <td>Polar reference frame (Tilt (&phi;) & Slant (&theta;)) </td>
+        <td>Cartesian reference frame</td>
+    </tr>
+    <tr>
+        <td><img src="static/scripts/images/doc/3.png" alt="drawing" height="300"/></td>
+        <td> <img src="static/scripts/images/doc/2.png" alt="drawing" width="400"/></td>
+    </tr>
+</table>
+
+</div>
+<h3 id="requirements">Requirements</h3>
+<ul>
+<li>Python3</li>
+<li>OpenCV</li>
+<li>numpy</li>
+<li>VTK</li>
+</ul>
+<h3 id="functions">Functions</h3>
+
+<table>
+    <tr>
+        <td>Name </td>
+        <td>Procedure</td>
+    </tr>
+    <tr>
+        <td>photometry(numimg, display) </td>
+        <td>Initializes an instance of the class. Requires the number of images and a boolean to display results or not</td>
+    </tr>
+	<tr>
+        <td>setlightmat(light_mat) </td>
+        <td>Used to set the light matrix from directions (cartesian coordinates)</td>
+    </tr>
+	<tr>
+        <td>setlmfromts(tilts, slants)</td>
+        <td>Used to set light matrix from tilts and slants. Performs a conversion from polar to cartesian coord. system </td>
+    </tr>
+	<tr>
+        <td>runphotometry(input_array, mask)</td>
+        <td>Runs the main algorithm. Requires an array of input images, and optionally a mask</td>
+    </tr>
+	<tr>
+        <td>settsfromlm()</td>
+        <td>Used just to convert from cartesian to polar coord. system</td>
+    </tr>
+	<tr>
+        <td>computegaussian()</td>
+        <td>Computes gaussian curvature</td>
+    </tr>
+	<tr>
+        <td>computemedian()</td>
+        <td>Computes median curvature</td>
+    </tr>
+	<tr>
+        <td>computedepthmap()</td>
+        <td><strong>Experimental</strong> Computes depth map</td>
+    </tr>
+	<tr>
+        <td>display3dobj()</td>
+        <td><strong>Experimental</strong> Displays a 3D reconstruction of the object</td>
+    </tr>
+	<tr>
+        <td>getnormalmap()</td>
+        <td>Returns the normal map as a 3 channel float array</td>
+    </tr>
+	<tr>
+        <td>getalbedo()</td>
+        <td>Returns the normal map as a single channel float array</td>
+    </tr>
+
+</table>
+
+<h3 id="results">Results</h3>
+<p>Here are some results:</p>
+<div>
+
+<table>
+    <tr>
+        <td>Albedo</td>
+        <td>Normal map</td>
+        <td>Curvatures</td>
+    </tr>
+    <tr>
+        <td><img src="static/scripts/images/doc/ball/albedo.png" alt="drawing" height="200"/></td>
+        <td><img src="static/scripts/images/doc/ball/normal_map.png" alt="drawing" width="300"/></td>
+        <td><div class="column"><div class="row"> <img src="static/scripts/images/doc/ball/gauss.png" alt="drawing" width="200"/> </div><div class="row"> <img src="static/scripts/images/doc/ball/med.png" alt="drawing" width="200"/> </div></div></td>
+    </tr>
+	<tr>
+        <td><img src="static/scripts/images/doc/box/albedo.png" alt="drawing" height="200"/></td>
+        <td><img src="static/scripts/images/doc/box/normal_map.png" alt="drawing" width="300"/> </td>
+        <td><div class="column"><div class="row"> <img src="static/scripts/images/doc/box/gauss.png" alt="drawing" width="200"/> </div><div class="row"> <img src="static/scripts/images/doc/box/med.png" alt="drawing" width="200"/> </div></div></td>
+    </tr>
+	<tr>
+        <td><img src="static/scripts/images/doc/buddha/albedo.png" alt="drawing" height="200"/> </td>
+        <td><img src="static/scripts/images/doc/buddha/normal_map.png" alt="drawing" width="300"/>  </td>
+        <td><div class="column"><div class="row"> <img src="static/scripts/images/doc/buddha/gauss.png" alt="drawing" width="200"/> </div><div class="row"> <img src="static/scripts/images/doc/buddha/med.png" alt="drawing" width="200"/> </div></div></td>
+    </tr>
+</table>
+
+</div>
+<h2 id="todo">TODO</h2>
+<ul>
+<li>Depth map computation</li>
+<li>3D reconstruction</li>
+<li>Add references (readme)</li>
+<li>Improve light direction images (readme) </li>
+<li>License (readme)</li>
+</ul>
+<h2 id="license">License</h2>
+<p>MIT License</p>
+
+        </div>
+        <style type='text/css'>body {
+  font: 400 16px/1.5 "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: #111;
+  background-color: #fdfdfd;
+  -webkit-text-size-adjust: 100%;
+  -webkit-font-feature-settings: "kern" 1;
+  -moz-font-feature-settings: "kern" 1;
+  -o-font-feature-settings: "kern" 1;
+  font-feature-settings: "kern" 1;
+  font-kerning: normal;
+  padding: 30px;
+}
+
+@media only screen and (max-width: 600px) {
+  body {
+    padding: 5px;
+  }
+
+  body > #content {
+    padding: 0px 20px 20px 20px !important;
+  }
+}
+
+body > #content {
+  margin: 0px;
+  max-width: 900px;
+  border: 1px solid #e1e4e8;
+  padding: 10px 40px;
+  padding-bottom: 20px;
+  border-radius: 2px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+hr {
+  color: #bbb;
+  background-color: #bbb;
+  height: 1px;
+  flex: 0 1 auto;
+  margin: 1em 0;
+  padding: 0;
+  border: none;
+}
+
+/**
+ * Links
+ */
+a {
+  color: #0366d6;
+  text-decoration: none; }
+  a:visited {
+    color: #0366d6; }
+  a:hover {
+    color: #0366d6;
+    text-decoration: underline; }
+
+pre {
+  background-color: #f6f8fa;
+  border-radius: 3px;
+  font-size: 85%;
+  line-height: 1.45;
+  overflow: auto;
+  padding: 16px;
+}
+
+/**
+  * Code blocks
+  */
+
+code {
+  background-color: rgba(27,31,35,.05);
+  border-radius: 3px;
+  font-size: 85%;
+  margin: 0;
+  word-wrap: break-word;
+  padding: .2em .4em;
+  font-family: SFMono-Regular,Consolas,Liberation Mono,Menlo,Courier,monospace;
+}
+
+pre > code {
+  background-color: transparent;
+  border: 0;
+  display: inline;
+  line-height: inherit;
+  margin: 0;
+  overflow: visible;
+  padding: 0;
+  word-wrap: normal;
+  font-size: 100%;
+}
+
+
+/**
+ * Blockquotes
+ */
+blockquote {
+  margin-left: 30px;
+  margin-top: 0px;
+  margin-bottom: 16px;
+  border-left-width: 3px;
+  padding: 0 1em;
+  color: #828282;
+  border-left: 4px solid #e8e8e8;
+  padding-left: 15px;
+  font-size: 18px;
+  letter-spacing: -1px;
+  font-style: italic;
+}
+blockquote * {
+  font-style: normal !important;
+  letter-spacing: 0;
+  color: #6a737d !important;
+}
+
+/**
+ * Tables
+ */
+table {
+  border-spacing: 2px;
+  display: block;
+  font-size: 14px;
+  overflow: auto;
+  width: 100%;
+  margin-bottom: 16px;
+  border-spacing: 0;
+  border-collapse: collapse;
+}
+
+td {
+  padding: 6px 13px;
+  border: 1px solid #dfe2e5;
+}
+
+th {
+  font-weight: 600;
+  padding: 6px 13px;
+  border: 1px solid #dfe2e5;
+}
+
+tr {
+  background-color: #fff;
+  border-top: 1px solid #c6cbd1;
+}
+
+table tr:nth-child(2n) {
+  background-color: #f6f8fa;
+}
+
+/**
+ * Others
+ */
+
+img {
+  max-width: 100%;
+}
+
+p {
+  line-height: 24px;
+  font-weight: 400;
+  font-size: 16px;
+  color: #24292e; }
+
+ul {
+  margin-top: 0; }
+
+li {
+  color: #24292e;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5; }
+
+li + li {
+  margin-top: 0.25em; }
+
+* {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  color: #24292e; }
+
+a:visited {
+  color: #0366d6; }
+
+h1, h2, h3 {
+  border-bottom: 1px solid #eaecef;
+  color: #111;
+  /* Darker */ }</style>
+      </body>
+    </html>
