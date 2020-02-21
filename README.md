@@ -25,7 +25,7 @@ in this way, the correspondence of image points is known beforehand, as the posi
 
 Ideal acquisition setup                              |  Acquired images
 :---------------------------------------------------:|:---------------------------------------------------:
-<img src="./doc/0.png" alt="drawing" height="200"/>  |  <img src="./doc/1.png" alt="drawing" width="300"/>
+<img src="./doc/0.png" alt="drawing" height="200"/>  |  <img src="./doc/1.PNG" alt="drawing" width="300"/>
 
 </div>
 
