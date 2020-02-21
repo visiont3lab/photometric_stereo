@@ -1,0 +1,8 @@
+# Ignore results and inputs
+*.png
+*.bmp
+*.tga
+*.obj
+*.mtl
+*.yml
+/photostereo_py/.vscode/
