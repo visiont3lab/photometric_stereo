@@ -26,6 +26,7 @@ var/
 *.egg-info/
 .installed.cfg
 *.egg
+*.ini
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
@@ -156,3 +157,5 @@ fabric.properties
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+
+/*venv/
