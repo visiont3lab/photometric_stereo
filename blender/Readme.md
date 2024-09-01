@@ -9,3 +9,7 @@ Here you can find a blender script that allows to generate random scenes and ren
 3. Update the [Normal Depth scene](/blender/normal_depth_scene.fbx) path, and change the resolution/format/loops as you prefer
 4. Save the scene
 5. Run the script. Output data will be in the same folder as the blender scene
+
+## GPU
+
+To use the GPU for rendering, remember to enable it in Edit->Preferences->System.
